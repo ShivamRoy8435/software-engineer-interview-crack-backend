@@ -1,11 +1,10 @@
 package com.learning_hub.controller.usercontroller;
 
+import com.learning_hub.entity.user.UserEntity;
 import com.learning_hub.requestdto.user.UserAuthReqDto;
 import com.learning_hub.requestdto.user.UserRequestDto;
 import com.learning_hub.service.services.user.IUser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import com.learning_hub.utility.JwtFilterUtility;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,15 +14,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("user/")
 public class UserController {
 
-    @Autowired
-    IUser iUser;
+    private final IUser iUser;
+    private final JwtFilterUtility jwtFilterUtility;
+    public UserController(IUser iUser, JwtFilterUtility jwtFilterUtility) {
+        this.iUser = iUser;
+        this.jwtFilterUtility = jwtFilterUtility;
+    }
+
     @PostMapping("login")
-    public void authentication(@RequestBody UserAuthReqDto userAuthReqDto) {
+    public String authentication(@RequestBody UserAuthReqDto userAuthReqDto) {
+
+        return jwtFilterUtility.authenticateUser(userAuthReqDto);
 
     }
     @PostMapping("createUser")
-    public void createUser(@RequestBody UserRequestDto userRequestDto) {
-        iUser.createUser(userRequestDto);
+    public UserEntity createUser(@RequestBody UserRequestDto userRequestDto) {
+        return iUser.createUser(userRequestDto);
     }
 
 }

@@ -12,15 +12,17 @@ import org.springframework.stereotype.Service;
 // Used to implement self UserDetailsService to customize the things which we want to get the credentials from db
 @Service
 public class MyUserDetailService implements UserDetailsService {
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public MyUserDetailService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     // Overriden method of UserDetailsService to provide us to check the data into db.
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity user = userRepository.findByUsername(username);
         if (user == null) {
-            System.out.println("User not found");
             throw new UsernameNotFoundException("User not found");
         }
         return new UserPrinciple(user);

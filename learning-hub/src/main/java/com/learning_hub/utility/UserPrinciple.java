@@ -7,11 +7,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
-// This class is used for setting the username password and set the authorities and set default check
-// Must to implement UserDetails which is the class provide for UserDetailsService to set
+/**
+ * This class is used for setting the username password and set the authorities and set default check
+ * Must implement UserDetails which is the class provide for UserDetailsService to set
+ **/
 public class UserPrinciple implements UserDetails {
 
-    private UserEntity user;
+    private final UserEntity user;
     public UserPrinciple(UserEntity user) {
         this.user = user;
     }
@@ -31,23 +33,4 @@ public class UserPrinciple implements UserDetails {
         return user.getUsername();
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }
