@@ -1,0 +1,26 @@
+
+spring:
+  profiles:
+    active: local  # or your desired profile name
+  data:  # Redis server connection
+    redis:
+      host: localhost
+      port: 6379
+# Eureka server connection
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:9091/eureka/
+
+# Actuators
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    endpoint:
+      health:
+        show-details: always
+    enabled-by-default: true
